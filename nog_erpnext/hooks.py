@@ -1,6 +1,6 @@
 app_name = "nog_erpnext"
 app_title = "Nog Erpnext"
-app_publisher = "ERPKenya"
+app_publisher = "Njoroge Francis"
 app_description = "This is the ERPNext implementation for National Oil Githunguri — a multi-department petrol station and services complex in Githunguri, Kenya. The system is built as a custom Frappe app (nog_erpnext) that extends ERPNext with forecourt management, biometric attendance sync, and department-specific modules."
 app_email = "franciskamande2001@gmail.com"
 app_license = "mit"

@@ -1,7 +1,7 @@
 [project]
 name = "nog_erpnext"
 authors = [
-    { name = "ERPKenya", email = "franciskamande2001@gmail.com"}
+    { name = "Njoroge Francis", email = "franciskamande2001@gmail.com"}
 ]
 description = "This is the ERPNext implementation for National Oil Githunguri — a multi-department petrol station and services complex in Githunguri, Kenya. The system is built as a custom Frappe app (nog_erpnext) that extends ERPNext with forecourt management, biometric attendance sync, and department-specific modules."
 requires-python = ">=3.10"
