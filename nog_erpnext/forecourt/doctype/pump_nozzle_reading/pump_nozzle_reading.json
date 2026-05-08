@@ -2,33 +2,41 @@
  "actions": [],
  "allow_import": 1,
  "autoname": "naming_series:",
- "creation": "2026-05-08 00:00:00.000000",
+ "creation": "2026-05-08 00:00:00",
  "doctype": "DocType",
  "document_type": "Document",
  "engine": "InnoDB",
  "field_order": [
   "naming_series",
+  "attendant",
+  "column_break_crlz",
   "date",
   "shift",
-  "attendant",
   "pump_section",
-  "pump_no",
-  "nozzle_no",
   "fuel_type",
+  "column_break_ulea",
+  "nozzle_no",
+  "pump_no",
   "meter_section",
   "opening_meter",
+  "column_break_dprn",
   "closing_meter",
+  "meter_rollover",
+  "meter_rollover_limit",
   "litres_sold",
   "pricing_section",
   "unit_price",
+  "column_break_zrnt",
   "gross_amount",
   "payment_section",
   "payment_mode",
+  "column_break_qsrq",
   "customer",
   "posting_section",
   "sales_invoice",
-  "stock_entry",
-  "amended_from"
+  "amended_from",
+  "column_break_turx",
+  "stock_entry"
  ],
  "fields": [
   {
@@ -115,6 +123,21 @@
    "reqd": 1
   },
   {
+   "default": "0",
+   "description": "Tick only when the physical meter has rolled over or been reset between the opening and closing readings.",
+   "fieldname": "meter_rollover",
+   "fieldtype": "Check",
+   "label": "Meter Rollover"
+  },
+  {
+   "depends_on": "eval:doc.meter_rollover",
+   "description": "The next value after the meter's maximum reading, for example 100000 for a 5 digit meter.",
+   "fieldname": "meter_rollover_limit",
+   "fieldtype": "Float",
+   "label": "Rollover Limit",
+   "mandatory_depends_on": "eval:doc.meter_rollover"
+  },
+  {
    "fieldname": "litres_sold",
    "fieldtype": "Float",
    "in_list_view": 1,
@@ -191,11 +214,35 @@
    "options": "Pump Nozzle Reading",
    "print_hide": 1,
    "read_only": 1
+  },
+  {
+   "fieldname": "column_break_crlz",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "column_break_ulea",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "column_break_dprn",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "column_break_zrnt",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "column_break_qsrq",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "column_break_turx",
+   "fieldtype": "Column Break"
   }
  ],
  "is_submittable": 1,
  "links": [],
- "modified": "2026-05-08 00:00:00.000000",
+ "modified": "2026-05-09 01:15:29.929305",
  "modified_by": "Administrator",
  "module": "Forecourt",
  "name": "Pump Nozzle Reading",
@@ -229,6 +276,7 @@
    "write": 1
   }
  ],
+ "row_format": "Dynamic",
  "sort_field": "modified",
  "sort_order": "DESC",
  "states": [],

@@ -1,0 +1,19 @@
+{
+ "creation": "2026-05-08 00:00:00.000000",
+ "docstatus": 0,
+ "doctype": "Number Card",
+ "idx": 0,
+ "is_public": 1,
+ "is_standard": 1,
+ "label": "Today Litres Sold",
+ "method": "nog_erpnext.forecourt.number_cards.today_litres_sold",
+ "modified": "2026-05-08 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Forecourt",
+ "name": "Forecourt Today Litres Sold",
+ "owner": "Administrator",
+ "show_percentage_stats": 0,
+ "stats_time_interval": "Daily",
+ "type": "Custom"
+}
+

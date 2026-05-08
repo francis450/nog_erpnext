@@ -1,0 +1,56 @@
+{
+ "actions": [],
+ "creation": "2026-05-09 00:00:00.000000",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "fuel_item",
+  "tank_warehouse",
+  "aliases",
+  "is_default"
+ ],
+ "fields": [
+  {
+   "fieldname": "fuel_item",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Fuel Item",
+   "options": "Item",
+   "reqd": 1
+  },
+  {
+   "fieldname": "tank_warehouse",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Tank Warehouse",
+   "options": "Warehouse",
+   "reqd": 1
+  },
+  {
+   "description": "Optional comma-separated names accepted as this fuel item, for example PETROL, Petrol, PMS.",
+   "fieldname": "aliases",
+   "fieldtype": "Small Text",
+   "label": "Aliases"
+  },
+  {
+   "default": "0",
+   "fieldname": "is_default",
+   "fieldtype": "Check",
+   "in_list_view": 1,
+   "label": "Default"
+  }
+ ],
+ "istable": 1,
+ "links": [],
+ "modified": "2026-05-09 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Forecourt",
+ "name": "Forecourt Fuel Mapping",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}
+

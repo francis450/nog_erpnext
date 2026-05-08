@@ -1,0 +1,48 @@
+{
+ "actions": [],
+ "creation": "2026-05-09 00:00:00.000000",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "nozzle_no",
+  "pump_no",
+  "fuel_item"
+ ],
+ "fields": [
+  {
+   "fieldname": "nozzle_no",
+   "fieldtype": "Int",
+   "in_list_view": 1,
+   "label": "Nozzle No",
+   "reqd": 1
+  },
+  {
+   "fieldname": "pump_no",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Pump No",
+   "options": "1\n2\n3\n4",
+   "reqd": 1
+  },
+  {
+   "fieldname": "fuel_item",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Fuel Item",
+   "options": "Item",
+   "reqd": 1
+  }
+ ],
+ "istable": 1,
+ "links": [],
+ "modified": "2026-05-09 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Forecourt",
+ "name": "Forecourt Nozzle Mapping",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

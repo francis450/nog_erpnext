@@ -1,0 +1,122 @@
+{
+ "actions": [],
+ "creation": "2026-05-09 00:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "section_fuel_mapping",
+  "fuel_mappings",
+  "section_nozzle_mapping",
+  "nozzle_mappings",
+  "section_meter",
+  "default_meter_rollover_limit",
+  "section_defaults",
+  "walk_in_customer",
+  "forecourt_cost_center",
+  "cash_mode_of_payment",
+  "mpesa_mode_of_payment",
+  "card_mode_of_payment"
+ ],
+ "fields": [
+  {
+   "fieldname": "section_fuel_mapping",
+   "fieldtype": "Section Break",
+   "label": "Fuel to Tank Mapping"
+  },
+  {
+   "fieldname": "fuel_mappings",
+   "fieldtype": "Table",
+   "label": "Fuel Mappings",
+   "options": "Forecourt Fuel Mapping"
+  },
+  {
+   "fieldname": "section_nozzle_mapping",
+   "fieldtype": "Section Break",
+   "label": "Nozzle Mapping"
+  },
+  {
+   "fieldname": "nozzle_mappings",
+   "fieldtype": "Table",
+   "label": "Nozzle Mappings",
+   "options": "Forecourt Nozzle Mapping"
+  },
+  {
+   "fieldname": "section_meter",
+   "fieldtype": "Section Break",
+   "label": "Meter Settings"
+  },
+  {
+   "default": "100000",
+   "description": "Used only when Meter Rollover is ticked on a Pump Nozzle Reading. Enter the next value after the meter's maximum reading, for example 100000 for a 5 digit meter.",
+   "fieldname": "default_meter_rollover_limit",
+   "fieldtype": "Float",
+   "label": "Default Meter Rollover Limit"
+  },
+  {
+   "fieldname": "section_defaults",
+   "fieldtype": "Section Break",
+   "label": "Posting Defaults"
+  },
+  {
+   "fieldname": "walk_in_customer",
+   "fieldtype": "Link",
+   "label": "Walk-in Customer",
+   "options": "Customer"
+  },
+  {
+   "fieldname": "forecourt_cost_center",
+   "fieldtype": "Link",
+   "label": "Forecourt Cost Center",
+   "options": "Cost Center"
+  },
+  {
+   "fieldname": "cash_mode_of_payment",
+   "fieldtype": "Link",
+   "label": "Cash Mode of Payment",
+   "options": "Mode of Payment"
+  },
+  {
+   "fieldname": "mpesa_mode_of_payment",
+   "fieldtype": "Link",
+   "label": "M-Pesa Mode of Payment",
+   "options": "Mode of Payment"
+  },
+  {
+   "fieldname": "card_mode_of_payment",
+   "fieldtype": "Link",
+   "label": "Card Mode of Payment",
+   "options": "Mode of Payment"
+  }
+ ],
+ "issingle": 1,
+ "links": [],
+ "modified": "2026-05-09 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Forecourt",
+ "name": "Forecourt Settings",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "role": "Accounts User",
+   "share": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

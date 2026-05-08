@@ -20,6 +20,15 @@ frappe.ui.form.on("Pump Nozzle Reading", {
 		frm.trigger("calculate_totals");
 	},
 
+	meter_rollover(frm) {
+		frm.trigger("set_default_rollover_limit");
+		frm.trigger("calculate_totals");
+	},
+
+	meter_rollover_limit(frm) {
+		frm.trigger("calculate_totals");
+	},
+
 	unit_price(frm) {
 		frm.trigger("calculate_totals");
 	},
@@ -29,27 +38,21 @@ frappe.ui.form.on("Pump Nozzle Reading", {
 	},
 
 	apply_nozzle_defaults(frm) {
-		const nozzleMap = {
-			1: ["1", "FUEL-PMS"],
-			2: ["1", "FUEL-AGO"],
-			3: ["1", "FUEL-PMS"],
-			4: ["1", "FUEL-AGO"],
-			5: ["2", "FUEL-PMS"],
-			6: ["2", "FUEL-AGO"],
-			7: ["2", "FUEL-PMS"],
-			8: ["2", "FUEL-AGO"],
-			9: ["3", "FUEL-PMS"],
-			10: ["3", "FUEL-AGO"],
-			11: ["3", "FUEL-PMS"],
-			12: ["3", "FUEL-AGO"],
-			13: ["4", "FUEL-IK"],
-		};
+		if (!frm.doc.nozzle_no) return;
 
-		const defaults = nozzleMap[frm.doc.nozzle_no];
-		if (!defaults) return;
+		frappe.call({
+			method:
+				"nog_erpnext.forecourt.doctype.pump_nozzle_reading.pump_nozzle_reading.get_nozzle_defaults",
+			args: {
+				nozzle_no: frm.doc.nozzle_no,
+			},
+			callback(r) {
+				if (!r.message) return;
 
-		frm.set_value("pump_no", defaults[0]);
-		frm.set_value("fuel_type", defaults[1]);
+				frm.set_value("pump_no", r.message.pump_no);
+				frm.set_value("fuel_type", r.message.fuel_item);
+			},
+		});
 	},
 
 	fetch_last_reading(frm) {
@@ -79,8 +82,27 @@ frappe.ui.form.on("Pump Nozzle Reading", {
 		});
 	},
 
+	set_default_rollover_limit(frm) {
+		if (!frm.doc.meter_rollover || frm.doc.meter_rollover_limit) return;
+
+		frappe.db
+			.get_single_value("Forecourt Settings", "default_meter_rollover_limit")
+			.then((value) => {
+				if (value && !frm.doc.meter_rollover_limit) {
+					frm.set_value("meter_rollover_limit", value);
+				}
+			});
+	},
+
 	calculate_totals(frm) {
-		const litres = flt(frm.doc.closing_meter) - flt(frm.doc.opening_meter);
+		const opening = flt(frm.doc.opening_meter);
+		const closing = flt(frm.doc.closing_meter);
+		let litres = closing - opening;
+
+		if (frm.doc.meter_rollover && closing < opening) {
+			litres = flt(frm.doc.meter_rollover_limit) - opening + closing;
+		}
+
 		frm.set_value("litres_sold", Math.max(litres, 0));
 		frm.set_value("gross_amount", Math.max(litres, 0) * flt(frm.doc.unit_price));
 	},

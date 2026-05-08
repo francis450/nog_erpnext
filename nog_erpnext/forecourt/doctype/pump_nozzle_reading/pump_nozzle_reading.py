@@ -2,12 +2,14 @@ from __future__ import annotations
 
 import frappe
 from frappe import _
+from frappe.utils import flt
 from frappe.model.document import Document
 
 from nog_erpnext.forecourt.utils import (
 	FORECOURT_COST_CENTER,
 	get_company,
 	get_default_customer,
+	get_nozzle_mapping,
 	get_tank_warehouse,
 	validate_nozzle_fuel_mapping,
 )
@@ -32,15 +34,37 @@ class PumpNozzleReading(Document):
 		self.cancel_linked_doc("Sales Invoice", self.sales_invoice)
 
 	def validate_meter_values(self):
-		if self.closing_meter < self.opening_meter:
+		opening_meter = flt(self.opening_meter)
+		closing_meter = flt(self.closing_meter)
+
+		if closing_meter >= opening_meter:
+			return
+
+		if not self.meter_rollover:
 			frappe.throw(
-				_("Closing meter {0} cannot be less than opening meter {1}.").format(
-					self.closing_meter, self.opening_meter
+				_(
+					"Closing meter {0} cannot be less than opening meter {1}. "
+					"If the physical meter rolled over, tick Meter Rollover and set the rollover limit."
+				).format(
+					closing_meter, opening_meter
 				)
 			)
 
+		rollover_limit = flt(self.meter_rollover_limit)
+		if rollover_limit <= opening_meter:
+			frappe.throw(
+				_("Rollover Limit must be greater than Opening Meter when Meter Rollover is ticked.")
+			)
+
 	def calculate_totals(self):
-		self.litres_sold = (self.closing_meter or 0) - (self.opening_meter or 0)
+		opening_meter = flt(self.opening_meter)
+		closing_meter = flt(self.closing_meter)
+
+		if self.meter_rollover and closing_meter < opening_meter:
+			self.litres_sold = flt(self.meter_rollover_limit) - opening_meter + closing_meter
+		else:
+			self.litres_sold = closing_meter - opening_meter
+
 		self.gross_amount = self.litres_sold * (self.unit_price or 0)
 
 	def validate_payment_details(self):
@@ -129,6 +153,12 @@ class PumpNozzleReading(Document):
 
 
 @frappe.whitelist()
+def get_nozzle_defaults(nozzle_no: int):
+	frappe.has_permission("Pump Nozzle Reading", "read", throw=True)
+	return get_nozzle_mapping(nozzle_no)
+
+
+@frappe.whitelist()
 def get_last_reading(nozzle_no: int, date: str | None = None, shift: str | None = None):
 	frappe.has_permission("Pump Nozzle Reading", "read", throw=True)
 
@@ -155,4 +185,3 @@ def get_last_reading(nozzle_no: int, date: str | None = None, shift: str | None 
 			return reading
 
 	return readings[0]
-

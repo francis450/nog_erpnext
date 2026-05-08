@@ -1,14 +1,17 @@
 frappe.ui.form.on("Tank Dip Reading", {
 	fuel_type(frm) {
-		const warehouseMap = {
-			"FUEL-PMS": "Petrol Tank - NOG",
-			"FUEL-AGO": "Diesel Tank - NOG",
-			"FUEL-IK": "Paraffin Tank - NOG",
-		};
+		if (!frm.doc.fuel_type) return;
 
-		if (warehouseMap[frm.doc.fuel_type]) {
-			frm.set_value("tank_warehouse", warehouseMap[frm.doc.fuel_type]);
-		}
+		frappe.call({
+			method: "nog_erpnext.forecourt.utils.get_tank_warehouse",
+			args: {
+				item_code: frm.doc.fuel_type,
+			},
+			callback(r) {
+				if (r.message) {
+					frm.set_value("tank_warehouse", r.message);
+				}
+			},
+		});
 	},
 });
-

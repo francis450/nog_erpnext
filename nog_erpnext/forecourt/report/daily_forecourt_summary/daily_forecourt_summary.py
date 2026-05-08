@@ -2,13 +2,16 @@ from __future__ import annotations
 
 import frappe
 from frappe import _
+from frappe.utils import flt
 
 
 def execute(filters=None):
 	filters = frappe._dict(filters or {})
 	columns = get_columns()
 	data = get_data(filters)
-	return columns, data
+	chart = get_chart_data(data)
+	report_summary = get_report_summary(data)
+	return columns, data, None, chart, report_summary
 
 
 def get_columns():
@@ -66,3 +69,75 @@ def get_data(filters):
 		as_dict=True,
 	)
 
+
+def get_report_summary(data):
+	total_litres = sum(flt(row.get("litres_sold")) for row in data)
+	total_sales = sum(flt(row.get("gross_amount")) for row in data)
+	average_price = total_sales / total_litres if total_litres else 0
+	total_cash = sum(flt(row.get("cash_amount")) for row in data)
+	total_mpesa = sum(flt(row.get("mpesa_amount")) for row in data)
+	total_card = sum(flt(row.get("card_amount")) for row in data)
+	total_fleet = sum(flt(row.get("fleet_amount")) for row in data)
+
+	return [
+		{
+			"value": total_litres,
+			"label": _("Total Litres"),
+			"datatype": "Float",
+			"indicator": "Blue",
+		},
+		{"type": "separator", "value": "x"},
+		{
+			"value": average_price,
+			"label": _("Average Price"),
+			"datatype": "Currency",
+			"indicator": "Blue",
+		},
+		{"type": "separator", "value": "="},
+		{
+			"value": total_sales,
+			"label": _("Gross Sales"),
+			"datatype": "Currency",
+			"indicator": "Green" if total_sales else "Red",
+		},
+		{
+			"value": total_cash,
+			"label": _("Cash"),
+			"datatype": "Currency",
+		},
+		{
+			"value": total_mpesa,
+			"label": _("M-Pesa"),
+			"datatype": "Currency",
+		},
+		{
+			"value": total_card,
+			"label": _("Card"),
+			"datatype": "Currency",
+		},
+		{
+			"value": total_fleet,
+			"label": _("Fleet"),
+			"datatype": "Currency",
+		},
+	]
+
+
+def get_chart_data(data):
+	daily_sales = {}
+	for row in data:
+		date = row.get("date")
+		if not date:
+			continue
+		daily_sales.setdefault(date, 0)
+		daily_sales[date] += flt(row.get("gross_amount"))
+
+	labels = sorted(daily_sales)
+	return {
+		"data": {
+			"labels": labels,
+			"datasets": [{"name": _("Gross Sales"), "values": [daily_sales[label] for label in labels]}],
+		},
+		"type": "bar",
+		"fieldtype": "Currency",
+	}
