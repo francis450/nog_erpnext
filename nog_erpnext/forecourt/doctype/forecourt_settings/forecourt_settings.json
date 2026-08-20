@@ -8,6 +8,8 @@
   "fuel_mappings",
   "section_nozzle_mapping",
   "nozzle_mappings",
+  "section_shift_mapping",
+  "shift_mappings",
   "section_meter",
   "default_meter_rollover_limit",
   "section_defaults",
@@ -39,6 +41,17 @@
    "fieldtype": "Table",
    "label": "Nozzle Mappings",
    "options": "Forecourt Nozzle Mapping"
+  },
+  {
+   "fieldname": "section_shift_mapping",
+   "fieldtype": "Section Break",
+   "label": "Forecourt to HR Shift Mapping"
+  },
+  {
+   "fieldname": "shift_mappings",
+   "fieldtype": "Table",
+   "label": "Shift Mappings",
+   "options": "Forecourt Shift Mapping"
   },
   {
    "fieldname": "section_meter",

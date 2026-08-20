@@ -10,6 +10,8 @@
   "naming_series",
   "date",
   "shift",
+  "hr_shift_type",
+  "shift_assignment",
   "attendant",
   "supervisor",
   "start_time",
@@ -48,6 +50,23 @@
    "label": "Shift",
    "options": "Morning\nAfternoon\nNight",
    "reqd": 1
+  },
+  {
+   "fieldname": "hr_shift_type",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "HR Shift Type",
+   "options": "Shift Type",
+   "read_only": 1
+  },
+  {
+   "fieldname": "shift_assignment",
+   "fieldtype": "Link",
+   "label": "HR Shift Assignment",
+   "no_copy": 1,
+   "options": "Shift Assignment",
+   "read_only": 1
   },
   {
    "fieldname": "attendant",
